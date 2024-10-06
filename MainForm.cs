@@ -198,9 +198,9 @@ namespace PaltalkNickReader
             if (className == ListViewClassName)
             {
                 ghPtLv = hWnd;
-                ghPtLvPr = GetParent(hWnd);
+               // ghPtLvPr = GetParent(hWnd);
                 Debug.WriteLine($"We got list view handle: {ghPtLv}");
-                Debug.WriteLine($"We got list view Parent handle: {ghPtLvPr}");
+               //Debug.WriteLine($"We got list view Parent handle: {ghPtLvPr}");
             }
 
             return true; // Continue enumeration
@@ -242,7 +242,7 @@ namespace PaltalkNickReader
                         lVITEMW.iSubItem = 0;
                         lVITEMW.iItem = i;
                         int iTxtSize = 256;
-                        IntPtr pRemoteNick = (lVITEMW.pszText = VirtualAllocEx(hPorc, IntPtr.Zero, iTxtSize, 12288u, 4u));
+                        IntPtr pRemoteNick = (lVITEMW.pszText = VirtualAllocEx(hPorc, IntPtr.Zero, iTxtSize, 12288u, 4u));  // 
                         lVITEMW.cchTextMax = iTxtSize;
 
                         byte[] byteArr2Write = StructureToByteArray(lVITEMW);
@@ -271,8 +271,10 @@ namespace PaltalkNickReader
                             // Turn the byte array into text 
                             listViewItem.Text = Encoding.Default.GetString(array2).TrimEnd(default(char));
                         }
+
                         VirtualFreeEx(hPorc, pRemoteNick, 0, 32768); // Free the remote memory of the Nick
                         VirtualFreeEx(hPorc, pRemoteMem, 0, 32768); // Free the remote memory of List View Item
+
                         if (listViewItem.ImageIndex == 10)
                         {
                             // we have the Nickname om mic, add it to the List Box
