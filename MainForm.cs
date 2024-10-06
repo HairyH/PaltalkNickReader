@@ -144,12 +144,9 @@ namespace PaltalkNickReader
         }
 
         // Event Handlers
-        private void btnGetPaltalkWindows_Click(object sender, EventArgs e)
-        {
-            GetPaltalkWindows();
-        }
+        private void BtnGetPaltalkWindows_Click(object sender, EventArgs e) => GetPaltalkWindows();
 
-        private void btnReadNick_Click(object sender, EventArgs e)
+        private void BtnReadNick_Click(object sender, EventArgs e)
         {
             if (!GetMicUser())
             {
@@ -157,11 +154,9 @@ namespace PaltalkNickReader
             }
         }
 
-        private void btnClearNickList_Click(object sender, EventArgs e)
-        {
-           // MessageBox.Show("clear list clicked");
+        private void BtnClearNickList_Click(object sender, EventArgs e) =>
+            // MessageBox.Show("clear list clicked");
             lstNicks.Items.Clear();
-        }
 
 
         // Method to find Paltalk windows
@@ -214,12 +209,7 @@ namespace PaltalkNickReader
         [DllImport("user32.dll")]
         private static extern IntPtr GetParent(IntPtr hWnd);
 
-        /// <summary>
-        /// /// Gets the Nick on Mic
-        /// </summary>
-        /// <returns>bool</returns>
-
-
+       
         // Retrieve the list view items (nicknames)
         private bool GetMicUser()
         {
@@ -258,18 +248,26 @@ namespace PaltalkNickReader
                         byte[] byteArr2Write = StructureToByteArray(lVITEMW);
                         IntPtr lpNumberOfBytesWritten = (IntPtr)0;
                         WriteProcessMemory(hPorc, pRemoteMem, byteArr2Write, iSizeOfLvItemW, out lpNumberOfBytesWritten);
+                        Debug.WriteLine($"Number of bytes written to remote memory: {lpNumberOfBytesWritten}");
+
                         SendMessage(userListHdl, 4171, (IntPtr) i, pRemoteMem); // win32 API to get list view item
                         IntPtr lpNumberOfBytesRead = (IntPtr) 0;
                         ReadProcessMemory(hPorc, pRemoteMem, byteArr2Write, iSizeOfLvItemW, out lpNumberOfBytesRead);
+                        Debug.WriteLine($"Number of bytes read from remote memory: {lpNumberOfBytesRead}");
+
                         object obj = ByteArrayToStructure(byteArr2Write);
-                        listViewItem.ImageIndex = ((obj != null) ? ((LVITEMW)obj) : default).iImage; // Get the image number indicating mic user
+                        listViewItem.ImageIndex = ((obj != null) ? ((LVITEMW)obj) : default).iImage;
+                        Debug.WriteLine($"Nicks image index: {listViewItem.ImageIndex}");
+
                         if (listViewItem.ImageIndex == 10)
                         {
-                            SendMessage(userListHdl, 4141, (IntPtr)i, pRemoteMem); // Get the remote data bytes
+                            SendMessage(userListHdl, 4141, (IntPtr)i, pRemoteMem); // Get the remote data byte array
                             byte[] array2 = new byte[iTxtSize - 1 + 1]; //make a buff for the nickname byte array 
                             lpNumberOfBytesRead = (IntPtr)0;
                             // Read the remote byte array containing the nickname 
-                            ReadProcessMemory(hPorc, pRemoteNick, array2, iTxtSize, out lpNumberOfBytesRead); 
+                            ReadProcessMemory(hPorc, pRemoteNick, array2, iTxtSize, out lpNumberOfBytesRead);
+                            Debug.WriteLine($"Number of bytes read from remote memory: {lpNumberOfBytesRead}");
+
                             // Turn the byte array into text 
                             listViewItem.Text = Encoding.Default.GetString(array2).TrimEnd(default(char));
                         }

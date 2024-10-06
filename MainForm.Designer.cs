@@ -68,7 +68,7 @@
             this.btnClearNickList.TabIndex = 2;
             this.btnClearNickList.Text = "Clear Nicks List";
             this.btnClearNickList.UseVisualStyleBackColor = true;
-            this.btnClearNickList.Click += new System.EventHandler(this.btnClearNickList_Click);
+            this.btnClearNickList.Click += new System.EventHandler(this.BtnClearNickList_Click);
             // 
             // btnReadNick
             // 
@@ -79,7 +79,7 @@
             this.btnReadNick.TabIndex = 1;
             this.btnReadNick.Text = "Read Nicknames";
             this.btnReadNick.UseVisualStyleBackColor = true;
-            this.btnReadNick.Click += new System.EventHandler(this.btnReadNick_Click);
+            this.btnReadNick.Click += new System.EventHandler(this.BtnReadNick_Click);
             // 
             // btnGetPaltalkWindows
             // 
@@ -89,7 +89,7 @@
             this.btnGetPaltalkWindows.TabIndex = 0;
             this.btnGetPaltalkWindows.Text = "Get Paltalk Windows";
             this.btnGetPaltalkWindows.UseVisualStyleBackColor = true;
-            this.btnGetPaltalkWindows.Click += new System.EventHandler(this.btnGetPaltalkWindows_Click);
+            this.btnGetPaltalkWindows.Click += new System.EventHandler(this.BtnGetPaltalkWindows_Click);
             // 
             // MainForm
             // 
